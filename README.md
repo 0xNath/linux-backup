@@ -7,7 +7,7 @@ You can simply execute this script to to the backup and encryption job.
 ./backup.sh
 ```
 
-You can uncrypt and decompress a downloaded backup by using the option '-d':
+Uncrypt and decompress a downloaded backup by using the option '-d':
 ```
 ./backup.sh -d ./2021_06_04_11_28.tar.gz.gpg
 ```
