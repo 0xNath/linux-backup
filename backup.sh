@@ -50,7 +50,7 @@ mkdir -p $BACKUP_DIR &>/dev/null
 for i in ${TARGETS[@]}; do
 	echo ""
 	echo "$(date "+%D %R") : backing up $i ..."
-	if sudo rsync -Ra $i ${BACKUP_DIR}; then
+	if sudo rsync --exclude "$(cd "$(dirname "$BACKUP_DIR")"; pwd)/$(basename "$BACKUP_DIR")" -Ra $i ${BACKUP_DIR}; then
 		echo "	╚ $(date "+%D %R") : Successfully backed up $i"
 	else
 		echo "	╚ $(date "+%D %R") : Failed backing up $i"
