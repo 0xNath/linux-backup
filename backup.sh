@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BACKUP_NAME="$(date +"%Y_%m_%d_%I_%M")"
-TARGETS=('/home' '/var/log')
+TARGETS=('/home' '/etc/' '/var/log')
 BACKUP_ROOT='./backup'
 BACKUP_DIR="${BACKUP_ROOT}/${BACKUP_NAME}"
 
@@ -20,7 +20,7 @@ if [ "$1" == "-d" ]; then
 	gpg --yes --batch --decrypt --passphrase=$PASS $2 | tar xz --strip-components 2
 	exit
 else
-	mkdir $BACKUP_ROOT
+	mkdir $BACKUP_ROOT &>/dev/null
 fi
 
 read -p 'FTP hostname : ' FTP_HOST
@@ -30,8 +30,22 @@ read -p '	╚ username : ' FTP_USERNAME
 read -s -p '	╚ password : ' FTP_PASS
 echo ""
 
-mkdir -p $BACKUP_DIR
+LOGIN_ATTEMPT="$(ftp -inv $FTP_HOST << EOF
+user $FTP_USERNAME $FTP_PASS
+bye
+EOF
+)"
 
+if [[ "$(echo $LOGIN_ATTEMPT)" =~ "User logged in" ]]; then
+	echo ""
+	echo "login success"
+else
+	echo ""
+	echo "login attempt failed"
+	exit
+fi
+
+mkdir -p $BACKUP_DIR &>/dev/null
 
 for i in ${TARGETS[@]}; do
 	echo ""
