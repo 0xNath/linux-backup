@@ -17,7 +17,7 @@ fi
 echo ""
 
 if [ "$1" == "-d" ]; then
-        gpg --yes --batch --decrypt --cipher-algo "AES256" --passphrase="$PASS" $2 | tar xz 
+        gpg --yes --batch --decrypt --cipher-algo "AES256" --passphrase="$PASS" $2 | tar xz --strip-components 2
         exit
 else
         mkdir $BACKUP_ROOT &>/dev/null
