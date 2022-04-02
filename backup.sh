@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BACKUP_NAME="$(date +"%Y_%m_%d_%I_%M")"
-TARGETS=('/home' '/etc/' '/var/log')
+TARGETS=('/media/M2/home' '/etc' '/var/log')
 BACKUP_ROOT='./backup'
 BACKUP_DIR="${BACKUP_ROOT}/${BACKUP_NAME}"
 
